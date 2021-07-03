@@ -30,7 +30,7 @@ class LogListScreen extends Screen
     public function query(): array
     {
         return [
-            'logs' => Log::paginate(10),
+            'logs' => Log::paginate(25),
         ];
     }
 

@@ -30,7 +30,7 @@ class ArticleListScreen extends Screen
     public function query(): array
     {
         return [
-            'articles' => Article::paginate(10),
+            'articles' => Article::paginate(25),
         ];
     }
 

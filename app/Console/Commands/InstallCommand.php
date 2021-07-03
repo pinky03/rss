@@ -38,6 +38,7 @@ class InstallCommand extends Command
     public function handle()
     {
         $this->call('migrate:fresh');
+        $this->call('key:generate');
 
         $this->call('orchid:admin', [
             'name' => 'admin',
