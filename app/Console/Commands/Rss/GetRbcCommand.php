@@ -4,7 +4,6 @@ namespace App\Console\Commands\Rss;
 
 use Illuminate\Console\Command;
 use Curl\Curl;
-use App\Jobs\LoggingRssQuery;
 use \SimpleXMLElement;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Article;
@@ -86,7 +85,7 @@ class GetRbcCommand extends Command
 
     /**
      * Save results in table
-     * Save raw response in storage\xml
+     * Save raw response in storage
      *
      * @param Curl $curl
      * @return void
@@ -94,7 +93,7 @@ class GetRbcCommand extends Command
     private function logQuery(Curl $curl)
     {
         $storageName = microtime(true) . '.xml';
-        Storage::put('responses/'.$storageName, $curl->getRawResponse());
+        Storage::put('dumps-responses/'.$storageName, $curl->getRawResponse());
         $log = new Log;
         $log->method = 'GET';
         $log->url = $curl->getUrl();
