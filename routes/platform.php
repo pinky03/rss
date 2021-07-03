@@ -29,10 +29,6 @@ use Tabuna\Breadcrumbs\Trail;
 |
 */
 
-// Main
-Route::screen('/main', PlatformScreen::class)
-    ->name('platform.main');
-
 // Platform > Profile
 Route::screen('profile', UserProfileScreen::class)
     ->name('platform.profile')
@@ -93,9 +89,12 @@ Route::screen('roles', RoleListScreen::class)
 
 //Route::screen('idea', 'Idea::class','platform.screens.idea');
 
+// скачивание xml-дампов ответов
 Route::get('logs/{id}', function (string $id) {
     $log = App\Models\Log::findOrFail($id);
-    return Illuminate\Support\Facades\Storage::download('responses/'.$log->response_storage_name);
+    return Illuminate\Support\Facades\Storage::download(
+        'dumps-responses/'.$log->response_storage_name
+    );
 })->name('platform.content.logs.download');
 
 Route::screen('logs', \App\Orchid\Screens\Log\LogListScreen::class)

@@ -48,13 +48,6 @@ class LogListLayout extends Table
                     return $log->url;
                 }),
             
-            TD::make('response_storage_name', __('Storage Name'))
-                ->sort()
-                ->cantHide()
-                ->render(function (Log $log) {
-                    return $log->response_storage_name;
-                }),
-
             TD::make('created_at', __('Created'))
                 ->sort()
                 ->cantHide()
@@ -62,9 +55,9 @@ class LogListLayout extends Table
                     return $log->created_at;
                 }),
 
-            TD::make(__('Download'))
+            TD::make(__('Download response'))
                 ->align(TD::ALIGN_CENTER)
-                ->width('100px')
+                ->width('200px')
                 ->render(function (Log $log) {
                     return Link::make()
                         ->route('platform.content.logs.download', $log->id)

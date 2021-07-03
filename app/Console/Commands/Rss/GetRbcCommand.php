@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Console\Commands;
+namespace App\Console\Commands\Rss;
 
 use Illuminate\Console\Command;
 use Curl\Curl;
@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\Article;
 use App\Models\Log;
 
-class GetRssCommand extends Command
+class GetRbcCommand extends Command
 {
     /**
      * The name and signature of the console command.
@@ -71,18 +71,17 @@ class GetRssCommand extends Command
      */
     private function saveArticles(string $xml)
     {
-        $feed = new SimpleXMLElement($xml);
+        $feed = new SimpleXMLElement($xml, LIBXML_NOCDATA);
         foreach($feed->xpath('//item') as $item) {
-            $newArticles[] = [
-                'title' => $item->title,
-                'link' => $item->link,
-                'description' => mb_strcut($item->description, 0, 100, "UTF-8"), // magic
-                'pub_date' => $item->pubDate,
-                'author' => $item->author,
-                'image_link' => $item->enclosure['url'],
-            ];
+            $article = new Article;
+            $article->title = $item->title;
+            $article->link = $item->link;
+            $article->description = $item->description;
+            $article->pub_date = $item->pubDate;
+            $article->author = $item->author;
+            $article->image_link = $item->enclosure['url'];
+            $article->save();
         }
-        Article::insert($newArticles);
     }
 
     /**
